@@ -1,3 +1,4 @@
+from datetime import date
 from decorator import decorator_time
 
 
@@ -23,7 +24,7 @@ class Market:
 
         :return: list
         """
-        return sorted(self.drinks, key=lambda drink: drink.title)
+        return sorted(self.drinks, key=lambda drink: drink.title or "")
 
     @decorator_time
     def get_drinks_by_production_date(self, from_date=None, to_date=None) -> list:
@@ -33,5 +34,10 @@ class Market:
         :return: list
         """
         return list(
-            filter(lambda drink: from_date <= drink.production_date <= to_date, self.drinks)
+            filter(
+                lambda drink:
+                    drink.production_date and
+                    ((from_date or date.min) <= drink.production_date) and
+                    (drink.production_date <= (to_date or date.max)),
+                self.drinks)
         )

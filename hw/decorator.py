@@ -4,7 +4,7 @@ from time import time
 
 def decorator_time(func):
     def decorator(*args, **kwargs):
-        print(f'Method {func.__name__} invoked at: {datetime.now()}')
+        print(f'Method {func.__qualname__} invoked at: {datetime.now()}')
 
         start = time()
         result = func(*args, **kwargs)
